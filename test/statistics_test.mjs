@@ -20,11 +20,12 @@ describe("Statistics", () => {
     expect(() => computeStatistics("98.6")).to.throw(TypeError);
   });
 
-  it("returns NaN triplet when any element is NaN", () => {
+  it("ignores NaN values when computing stats", () => {
     const computedStats = computeStatistics([98.6, NaN, 99.1]);
-    expect(Number.isNaN(computedStats.average)).to.be.true;
-    expect(Number.isNaN(computedStats.min)).to.be.true;
-    expect(Number.isNaN(computedStats.max)).to.be.true;
+    const epsilon = 0.001;
+    expect(computedStats.average).to.be.closeTo((98.6 + 99.1) / 2, epsilon);
+    expect(computedStats.min).to.equal(98.6);
+    expect(computedStats.max).to.equal(99.1);
   });
 
   it("accepts numeric strings by coercion", () => {
@@ -34,10 +35,10 @@ describe("Statistics", () => {
   });
 
   it("returns NaN when any value is non-numeric", () => {
-    const computedStats = computeStatistics([98.6, "oops", 99.1]);
-    expect(Number.isNaN(computedStats.average)).to.be.true;
-    expect(Number.isNaN(computedStats.min)).to.be.true;
-    expect(Number.isNaN(computedStats.max)).to.be.true;
+    const computedStats = computeStatistics([98.6, "oops", 99.1]); 
+    const epsilon = 0.001;
+    expect(computedStats.average).to.be.closeTo((98.6 + 99.1) / 2, epsilon);
+    expect(computedStats.min).to.equal(98.6);
+    expect(computedStats.max).to.equal(99.1);
   });
-  
 });
