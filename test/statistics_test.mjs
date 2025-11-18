@@ -35,10 +35,18 @@ describe("Statistics", () => {
   });
 
   it("returns NaN when any value is non-numeric", () => {
-    const computedStats = computeStatistics([98.6, "oops", 99.1]); 
+    const computedStats = computeStatistics([98.6, "oops", 99.1]);
     const epsilon = 0.001;
     expect(computedStats.average).to.be.closeTo((98.6 + 99.1) / 2, epsilon);
     expect(computedStats.min).to.equal(98.6);
     expect(computedStats.max).to.equal(99.1);
+  });
+
+  it("converts Celsius temperatures to Fahrenheit", () => {
+    const computedStats = computeStatistics([37, 36, 38], "celsius");
+    const epsilon = 0.001;
+    expect(computedStats.average).to.be.closeTo(98.6, epsilon);
+    expect(computedStats.min).to.be.closeTo(96.8, epsilon);
+    expect(computedStats.max).to.be.closeTo(100.4, epsilon);
   });
 });
